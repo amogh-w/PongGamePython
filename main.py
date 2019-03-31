@@ -58,6 +58,25 @@ def show_playground(p1, p2, r):
     score_a = 0
     score_b = 0
 
+    # function to check who wins the game
+    def winner():
+        winner_player = False
+        if score_a >= int(r)/2:
+            winner_player = p1
+        elif score_b >= int(r)/2:
+            winner_player = p2
+        if winner_player is not False:
+            winner_popup = Tk()
+            winner_popup.title('Good Game!')
+            winner_popup.geometry('200x50')
+            winner_popup.configure(background='#212121')
+            label = Label(winner_popup, text='{} won the Game!'.format(winner_player))
+            label.config(bg='#212121', fg='#ffffff')
+            label.pack()
+            button = Button(winner_popup, text='OK', command=winner_popup.destroy)
+            button.pack()
+            playground_window.exitonclick()
+
     # paddle a visuals
     paddle_a = turtle.Turtle()
     paddle_a.speed(0)
@@ -126,6 +145,7 @@ def show_playground(p1, p2, r):
     # main game Loop
     while True:
         playground_window.update()
+        winner()
 
         # moving the ball
         ball.setx(ball.xcor() + ball.dx)
