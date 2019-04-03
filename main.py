@@ -1,5 +1,13 @@
 from tkinter import *
 import turtle
+import sqlite3
+
+# database connection
+try:
+    mango = sqlite3.connect('scores.db')
+    mango.execute('''CREATE TABLE SCORE(Player1 TEXT, Score1 INT, Player2 TEXT, Score2 INT);''')
+except:
+    pass
 
 # create root window
 window = Tk()
@@ -66,6 +74,8 @@ def show_playground(p1, p2, r):
         elif score_b >= int(r)/2:
             winner_player = p2
         if winner_player is not False:
+            mango.execute("INSERT INTO score(Player1, Score1, Player2, Score2) VALUES ('{}', {}, '{}', {});".format(p1, score_a, p2, score_b))
+            mango.commit()
             winner_popup = Tk()
             winner_popup.title('Good Game!')
             winner_popup.geometry('200x50')
